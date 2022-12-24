@@ -1,10 +1,37 @@
-#!/usr/bin/env bash
-# read from file given as argv[1] ($1) and print factors for each num in file
+#!/usr/bin/python3
+import sys
 
-FILE=$1
 
-while read NUM
-do
-    factors=($(factor $NUM))
-    echo "$NUM=$(($NUM/${factors[1]}))*${factors[1]}"
-done < $FILE
+
+def read_data(name):
+    with open(name) as f:
+        contents = f.read()
+        contents_ints = [int(x) for x in contents.split()]
+        return contents_ints
+
+def prime_num_generator():
+    primeN = []
+    for num in range(2, 100):
+        if num > 1:
+            for i in range(2, num):
+                if (num % i) == 0:
+                    break
+            else:
+                primeN.append(num)
+    return primeN
+
+
+
+def mul(a, b):
+    for i in range(len(a)):
+        for j in range(len(b)):
+            if a[i] % b[j] == 0:
+                x = a[i] // b[j]
+                print("{}={}*{}".format(a[i], x, b[j]))
+                break
+
+data = read_data(sys.argv[1])
+maximmum = max(data)
+minimum = min(data)
+primeNumbers = prime_num_generator()
+mul(data, primeNumbers)
