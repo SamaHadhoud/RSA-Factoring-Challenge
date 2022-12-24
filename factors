@@ -1,34 +1,10 @@
-#!/usr/bin/python3
-"""Module that factorize as many numbers as possible
- into a product of two smaller numbers."""
+#!/usr/bin/env bash
+# read from file given as argv[1] ($1) and print factors for each num in file
 
-from sys import argv
+FILE=$1
 
-def factorize(value):
-    i = 3
-    if value < 2:
-        return
-    if (not value % 2):
-        print("{:.0f}={:.0f}*{:.0f}".format(value, value / 2, 2))
-        return
-    while (i<value // 2):
-        if (not value % i ):
-            print("{:.0f}={:.0f}*{:.0f}".format(value, value / i, i))
-            return
-        i += 2
-    if (i == (value//2) + 1):
-        print("{:.0f}={:.0f}*{:.0f}".format(value, value, 1))
-        
-if len(argv) != 2:
-    exit()
-
-try:
-    with open(argv[1]) as file:
-        line = file.readline()
-
-        while line != "":
-            value = int(line.split('\n')[0])
-            factorize(value)
-            line = file.readline()
-except:
-    pass
+while read NUM
+do
+    factors=($(factor $NUM))
+    echo "$NUM=$(($NUM/${factors[1]}))*${factors[1]}"
+done < $FILE
