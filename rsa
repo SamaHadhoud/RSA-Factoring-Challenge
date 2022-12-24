@@ -3,8 +3,6 @@ import math
 import sys
 
 
-
-
 def read_data(name):
     with open(name) as f:
         contents = f.read()
